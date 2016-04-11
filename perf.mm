@@ -1,4 +1,8 @@
 #import <Foundation/Foundation.h>
+#if !TARGET_OS_IOS
+#import <AppKit/AppKit.h>
+#endif
+
 #import <mach/mach_time.h>
 #import <pthread.h>
 #import "perf.h"
@@ -433,6 +437,8 @@ DECLARE_TEST("Zero-zecond delayed perform", 100000, 1,
              break;, /* We do our own loop, so break out of the testing loop. Uuuugly. */
              [obj release]);
 
+#pragma mark Mac-specific tests
+
 #if !TARGET_OS_IOS
 DECLARE_TEST("NSTask process spawn", 100, 1, {},
              NSTask *task = [[NSTask alloc] init];
@@ -441,4 +447,12 @@ DECLARE_TEST("NSTask process spawn", 100, 1, {},
              [task waitUntilExit];
              [task release];,
              );
+
+DECLARE_TEST("NSWindow create/destroy", 100, 1, {},
+             objc_release([[NSWindow alloc] init]),
+             {});
+
+DECLARE_TEST("NSView create/destroy", 1000000, 1, {},
+             objc_release([[NSView alloc] init]),
+             {});
 #endif

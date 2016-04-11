@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C25FC3E51CBAE4A800894F64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C25FC3E41CBAE4A800894F64 /* main.m */; };
 		C25FC3F31CBAE4C700894F64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C25FC3F21CBAE4C700894F64 /* main.m */; };
+		C2E5584B1CBC6E1300F6943C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E5584A1CBC6E1300F6943C /* Cocoa.framework */; };
 		C2F597731CBAE5760051D0F0 /* perf.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2F597721CBAE5760051D0F0 /* perf.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C2F597741CBAE5760051D0F0 /* perf.mm in Sources */ = {isa = PBXBuildFile; fileRef = C2F597721CBAE5760051D0F0 /* perf.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
@@ -31,6 +32,7 @@
 		C25FC3EF1CBAE4C700894F64 /* PerformanceTest iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PerformanceTest iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C25FC3F21CBAE4C700894F64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C25FC4021CBAE4C700894F64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2E5584A1CBC6E1300F6943C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		C2F597721CBAE5760051D0F0 /* perf.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = perf.mm; sourceTree = "<group>"; };
 		C2F597751CBAE57D0051D0F0 /* perf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = perf.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -40,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2E5584B1CBC6E1300F6943C /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +59,7 @@
 		C25FC3D81CBAE4A700894F64 = {
 			isa = PBXGroup;
 			children = (
+				C2E5584A1CBC6E1300F6943C /* Cocoa.framework */,
 				C2F597711CBAE56A0051D0F0 /* Shared */,
 				C25FC3E31CBAE4A800894F64 /* PerformanceTest */,
 				C25FC3F01CBAE4C700894F64 /* PerformanceTest iOS */,
