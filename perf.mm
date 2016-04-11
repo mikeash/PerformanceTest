@@ -366,6 +366,48 @@ DECLARE_TEST("pthread create/join", 100000, 1, {},
              pthread_join(pt, NULL);,
              {});
 
+DECLARE_TEST("Dispatch queue create/destroy", 1000000, 10, {},
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));
+             dispatch_release(dispatch_queue_create("dummy testing queue", NULL));,
+             {});
+
+DECLARE_TEST("Dispatch_sync", 10000000, 10,
+             dispatch_queue_t queue = dispatch_queue_create("dummy testing queue", NULL),
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});
+             dispatch_sync(queue, ^{});,
+             dispatch_release(queue));
+
+DECLARE_TEST("Dispatch_async and wait", 100000, 10,
+             dispatch_queue_t queue = dispatch_queue_create("dummy testing queue", NULL);
+             __block volatile int done,
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);
+             done = 0; dispatch_async(queue, ^{ done = 1; }); while(!done);,
+             dispatch_release(queue));
+
 @interface DelayedPerformClass: NSObject @end
 @implementation DelayedPerformClass {
     uint64_t _currentIteration;
