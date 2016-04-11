@@ -31,6 +31,7 @@ struct TestInfo {
 
 static std::vector<TestInfo> AllTests;
 TestInfo EmptyLoopTest;
+TestInfo *RunOnlyTest;
 
 void Test(void) {
     struct mach_timebase_info tbinfo;
@@ -40,6 +41,11 @@ void Test(void) {
     auto overheadResult = EmptyLoopTest.fptr();
     NSTimeInterval totalOverhead = absToNanos(overheadResult.endTime - overheadResult.startTime);
     NSTimeInterval overheadPerIteration = totalOverhead / overheadResult.iterations;
+    
+    if(RunOnlyTest != NULL) {
+        AllTests.clear();
+        AllTests.push_back(*RunOnlyTest);
+    }
     
     std::vector<TestResult> results;
     
@@ -75,8 +81,9 @@ void Test(void) {
 }
 
 struct RegisterTest {
+    TestInfo info;
+    
     RegisterTest(const char *name, RawTestResult (*fptr)(void)) {
-        TestInfo info;
         info.name = name;
         info.fptr = fptr;
         
@@ -86,13 +93,21 @@ struct RegisterTest {
             AllTests.push_back(info);
         }
     }
+    
+    /// Add a call to this after DECLARE_TEST to make this the only performance test that runs,
+    /// so you don't have to wait through the whole test cycle to check one while working on it.
+    RegisterTest runOnlyThis() {
+        RunOnlyTest = new TestInfo;
+        *RunOnlyTest = info;
+        return *this;
+    }
 };
 
 #define CONCAT2(x, y) x ## y
 #define CONCAT(x, y) CONCAT2(x, y)
 
 #define DECLARE_TEST(_name, _iterations, _testsPerIteration, _setupCode, _testCode, _cleanupCode) \
-    static RegisterTest CONCAT(test, __COUNTER__)(_name, []() -> RawTestResult { \
+    static RegisterTest CONCAT(test, __COUNTER__) = RegisterTest(_name, []() -> RawTestResult { \
         RawTestResult info; \
         info.iterations = _iterations; \
         info.testsPerIteration = _testsPerIteration; \
