@@ -229,6 +229,21 @@ DECLARE_TEST("Floating-point division with integer conversion", 100000000, 10,
              );
 
 extern "C" void objc_release(id);
+extern "C" void objc_retain(id);
+
+DECLARE_TEST("ObjC retain and release", 10000000, 10,
+             id obj = [[NSObject alloc] init],
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);
+             objc_retain(obj); objc_release(obj);,
+             objc_release(obj));
 
 DECLARE_TEST("Object creation", 1000000, 10, {},
              objc_release([[NSObject alloc] init]);
