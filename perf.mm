@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
-#if !TARGET_OS_IOS
+#if TARGET_OS_IOS
+#import <UIKit/UIKit.h>
+#else
 #import <AppKit/AppKit.h>
 #endif
 
@@ -456,3 +458,13 @@ DECLARE_TEST("NSView create/destroy", 1000000, 1, {},
              objc_release([[NSView alloc] init]),
              {});
 #endif
+
+
+#pragma mark iOS-specific tests
+
+#if TARGET_OS_IOS
+DECLARE_TEST("UIView create/destroy", 1000000, 1, {},
+             objc_release([[UIView alloc] init]),
+             {});
+#endif
+
