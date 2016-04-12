@@ -439,6 +439,51 @@ DECLARE_TEST("Zero-zecond delayed perform", 100000, 1,
              break;, /* We do our own loop, so break out of the testing loop. Uuuugly. */
              [obj release]);
 
+DECLARE_TEST("Simple JSON encode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"}),
+             @autoreleasepool {
+                 [NSJSONSerialization dataWithJSONObject: dict options: 0 error: NULL];
+             },
+             {});
+
+DECLARE_TEST("Simple JSON decode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"});
+             NSData *json = [NSJSONSerialization dataWithJSONObject: dict options: 0 error: NULL],
+             @autoreleasepool {
+                 [NSJSONSerialization JSONObjectWithData: json options: 0 error: NULL];
+             },
+             {});
+
+DECLARE_TEST("Simple XML plist encode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"}),
+             @autoreleasepool {
+                 [NSPropertyListSerialization dataWithPropertyList:dict format: NSPropertyListXMLFormat_v1_0 options: 0 error: NULL];
+             },
+             {});
+
+DECLARE_TEST("Simple binary plist encode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"}),
+             @autoreleasepool {
+                 [NSPropertyListSerialization dataWithPropertyList:dict format: NSPropertyListBinaryFormat_v1_0 options: 0 error: NULL];
+             },
+             {});
+
+DECLARE_TEST("Simple XML plist decode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"});
+             NSData *plist = [NSPropertyListSerialization dataWithPropertyList:dict format: NSPropertyListXMLFormat_v1_0 options: 0 error: NULL],
+             @autoreleasepool {
+                 [NSPropertyListSerialization propertyListWithData: plist options: 0 format: NULL error: NULL];
+             },
+             {});
+
+DECLARE_TEST("Simple binary plist decode", 1000000, 1,
+             NSDictionary *dict = (@{@"one": @"won", @"two": @2, @"three": @"free"});
+             NSData *plist = [NSPropertyListSerialization dataWithPropertyList:dict format: NSPropertyListBinaryFormat_v1_0 options: 0 error: NULL],
+             @autoreleasepool {
+                 [NSPropertyListSerialization propertyListWithData: plist options: 0 format: NULL error: NULL];
+             },
+             {});
+
 #pragma mark Mac-specific tests
 
 #if !TARGET_OS_IOS
