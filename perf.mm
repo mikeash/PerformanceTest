@@ -305,7 +305,7 @@ DECLARE_TEST("16-byte malloc/free", 10000000, 10, {},
              free(malloc(16));,
              );
 
-DECLARE_TEST("16MB malloc/free", 100000, 10, {},
+DECLARE_TEST("16MB malloc/free", 1000000, 10, {},
              free(malloc(1 << 24));
              free(malloc(1 << 24));
              free(malloc(1 << 24));
@@ -358,8 +358,8 @@ DECLARE_WRITE_FILE_TEST("16MB", 1 << 24, 30, YES);
                  [[[NSData alloc] initWithContentsOfFile: @"/tmp/testrand"] release], \
                  [[NSFileManager defaultManager] removeItemAtPath: @"/tmp/testrand" error: NULL])
 
-DECLARE_READ_FILE_TEST("16 byte", 16, 100000);
-DECLARE_READ_FILE_TEST("16MB", 1 << 24, 100);
+DECLARE_READ_FILE_TEST("16 byte", 16, 1000000);
+DECLARE_READ_FILE_TEST("16MB", 1 << 24, 1000);
 
 static void *stub_pthread( void * )
 {
@@ -495,7 +495,7 @@ DECLARE_TEST("NSTask process spawn", 100, 1, {},
              [task release];,
              );
 
-DECLARE_TEST("NSWindow create/destroy", 100, 1, {},
+DECLARE_TEST("NSWindow create/destroy", 1000, 1, {},
              objc_release([[NSWindow alloc] init]),
              {});
 
