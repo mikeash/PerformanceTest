@@ -340,11 +340,13 @@ DECLARE_TEST("16MB malloc/free", 1000000, 10, {},
 DECLARE_MEMCPY_TEST("16 byte", 16, 100000000);
 DECLARE_MEMCPY_TEST("1MB", 1 << 20, 10000);
 
+static NSString *tmpFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent: @"testrand"];
+
 #define DECLARE_WRITE_FILE_TEST(humanSize, machineSize, count, atomic) \
     DECLARE_TEST(atomic ? "Write " humanSize " file (atomic)" : "Write " humanSize " file", count, 1, \
                  NSData *data = [[NSFileHandle fileHandleForReadingAtPath: @"/dev/random"] readDataOfLength: machineSize], \
-                 [data writeToFile: @"/tmp/testrand" atomically: atomic], \
-                 [[NSFileManager defaultManager] removeItemAtPath: @"/tmp/testrand" error: NULL])
+                 [data writeToFile: tmpFilePath atomically: atomic], \
+                 [[NSFileManager defaultManager] removeItemAtPath: tmpFilePath error: NULL])
 
 DECLARE_WRITE_FILE_TEST("16 byte", 16, 10000, NO);
 DECLARE_WRITE_FILE_TEST("16 byte", 16, 10000, YES);
@@ -354,9 +356,9 @@ DECLARE_WRITE_FILE_TEST("16MB", 1 << 24, 30, YES);
 #define DECLARE_READ_FILE_TEST(humanSize, machineSize, count) \
     DECLARE_TEST("Read " humanSize " file", count, 1, \
                  NSData *data = [[NSFileHandle fileHandleForReadingAtPath: @"/dev/random"] readDataOfLength: machineSize]; \
-                 [data writeToFile: @"/tmp/testrand" atomically: NO];, \
-                 [[[NSData alloc] initWithContentsOfFile: @"/tmp/testrand"] release], \
-                 [[NSFileManager defaultManager] removeItemAtPath: @"/tmp/testrand" error: NULL])
+                 [data writeToFile: tmpFilePath atomically: NO];, \
+                 [[[NSData alloc] initWithContentsOfFile: tmpFilePath] release], \
+                 [[NSFileManager defaultManager] removeItemAtPath: tmpFilePath error: NULL])
 
 DECLARE_READ_FILE_TEST("16 byte", 16, 1000000);
 DECLARE_READ_FILE_TEST("16MB", 1 << 24, 1000);
@@ -497,7 +499,7 @@ DECLARE_TEST("NSTask process spawn", 100, 1, {},
 
 DECLARE_TEST("NSWindow create/destroy", 1000, 1, {},
              objc_release([[NSWindow alloc] init]),
-             {});
+             {}).runOnlyThis();
 
 DECLARE_TEST("NSView create/destroy", 1000000, 1, {},
              objc_release([[NSView alloc] init]),
