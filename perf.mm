@@ -499,7 +499,7 @@ DECLARE_TEST("NSTask process spawn", 100, 1, {},
 
 DECLARE_TEST("NSWindow create/destroy", 1000, 1, {},
              objc_release([[NSWindow alloc] init]),
-             {}).runOnlyThis();
+             {});
 
 DECLARE_TEST("NSView create/destroy", 1000000, 1, {},
              objc_release([[NSView alloc] init]),
